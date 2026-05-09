@@ -6,32 +6,31 @@ const EventEmitter = require('events')
 EventEmitter.defaultMaxListeners = 20
 
 dotenv.config()
-
 connectDB()
 
 const app = express()
 
-app.use(cors({
+const corsOptions = {
     origin: [
         'http://localhost:5173',
-        'https://fact-os.vercel.app/',
+        'https://fact-os.vercel.app',
     ],
     credentials: true,
-}))
+}
+
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 app.use(express.json())
 
-// Routes
 app.use('/api/auth',      require('./routes/authRoutes'))
 app.use('/api/news',      require('./routes/newsRoutes'))
 app.use('/api/factcheck', require('./routes/factCheckRoutes'))
 app.use('/api/user',      require('./routes/userRoutes'))
 
-// Health check
 app.get('/', (req, res) => {
     res.json({ message: 'FactOS API is running' })
 })
 
-// Error middleware
 app.use(require('./middleware/errorMiddleware'))
 
 const PORT = process.env.PORT || 8080
