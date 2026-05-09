@@ -14,7 +14,7 @@ const app = express()
 app.use(cors({
     origin: [
         'http://localhost:5173',
-        'https://your-vercel-app.vercel.app',
+        'https://fact-os.vercel.app/',
     ],
     credentials: true,
 }))
@@ -34,5 +34,5 @@ app.get('/', (req, res) => {
 // Error middleware
 app.use(require('./middleware/errorMiddleware'))
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 8080
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`))
